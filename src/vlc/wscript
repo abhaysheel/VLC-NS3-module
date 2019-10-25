@@ -1,0 +1,51 @@
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+def build(bld):
+    module = bld.create_ns3_module('vlc', ['core', 'network', 'mobility', 'spectrum', 'propagation'])
+    module.source = [
+        'model/vlc-error-model.cc',
+	'model/vlc-interference-helper.cc',
+	'model/vlc-phy.cc',
+	'model/vlc-mac.cc',
+	'model/vlc-mac-header.cc',
+	'model/vlc-mac-trailer.cc',
+	'model/vlc-csmaca.cc',
+	'model/vlc-net-device.cc',
+	'model/vlc-spectrum-value-helper.cc',
+	'model/vlc-spectrum-signal-parameters.cc',
+	'model/vlc-wqi-tag.cc',
+        'helper/vlc-helper.cc',
+        ]
+
+    module_test = bld.create_ns3_module_test_library('vlc')
+    module_test.source = [
+        'test/vlc-ack-test.cc',
+	'test/vlc-cca-test.cc',
+	'test/vlc-collision-test.cc',
+	'test/vlc-error-model-test.cc',
+	'test/vlc-packet-test.cc',
+	'test/vlc-spectrum-value-helper-test.cc',
+        ]
+
+    headers = bld(features='ns3header')
+    headers.module = 'vlc'
+    headers.source = [
+        'model/vlc-error-model.h',
+	'model/vlc-interference-helper.h',
+	'model/vlc-phy.h',
+	'model/vlc-mac.h',
+	'model/vlc-mac-header.h',
+	'model/vlc-mac-trailer.h',
+	'model/vlc-csmaca.h',
+	'model/vlc-net-device.h',
+	'model/vlc-spectrum-value-helper.h',
+	'model/vlc-spectrum-signal-parameters.h',
+	'model/vlc-wqi-tag.h',
+        'helper/vlc-helper.h',
+        ]
+
+    if (bld.env['ENABLE_EXAMPLES']):
+        bld.recurse('examples')
+
+    bld.ns3_python_bindings()
+
